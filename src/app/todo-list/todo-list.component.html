@@ -1,16 +1,18 @@
 <div class="todo-container">
     <h1>My ToDo List</h1>
-    <div>
+
+    <div class="buttons">
         <ng-container *ngIf="!editing">
-            <button mat-raised-button color="primary" class="add-button" (click)="addTask()">Add task</button>
+            <button mat-raised-button color="primary" class="add-button-task" (click)="addTask()">Add Task</button>
         </ng-container>
 
         <ng-container *ngIf="editing">
             <button mat-raised-button color="primary" class="add-button" (click)="saveChanges()">Save</button>
             <button mat-stroked-button color="primary" class="add-button" (click)="cancel()">Cancel</button>
-        </ng-container>
-    
+        </ng-container> 
     </div>
+
+    <app-todo-progress [currentNumber]="taskList.length"></app-todo-progress>
 
     <div class="task-list">
         <ng-container *ngFor="let task of taskList">
@@ -19,27 +21,3 @@
     </div>
     
 </div>
-
-
-
-
-<!-- <div class="todo-container">
-    <input type="text" [(ngModel)]="value"/>
-    {{value}}
-    <button (click)="onButtonClick()">Show alert</button>
-    <ng-container *ngFor="let task of tasks">
-        <div class="todo-task">
-            <p class="todo-title" [ngClass]="{'urgent': task.urgent}" [ngStyle]="{'font-size': getFontSize(task)}">
-                <span *ngIf="task.urgent">Urgent:</span>
-                {{task.title}}
-            </p>
-            <p class="todo-description">{{task.description}}</p>
-        </div>
-    </ng-container>
-</div> 
-
-.todo 
-    &-title 
-        font-weight: 600,
-.urgent 
-    color: red -->

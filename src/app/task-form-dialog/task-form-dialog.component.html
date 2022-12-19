@@ -1,30 +1,46 @@
 <div class="dialog-wrapper">
-    <div>Create task</div>
+    <div class="newTask">Create Task</div>
 
-    <form [formGroup]="taskForm">
+    <form [formGroup]="taskForm" class="formDialog">
        <mat-form-field appearance="fill">
             <mat-label>Title</mat-label>
-            <input matInput formControlName="title">
+            <input matInput [formControl]="$any(taskForm.controls.title)">
+            <mat-error *ngIf="taskForm.controls.title.hasError('required')">
+                Title is required
+            </mat-error>
         </mat-form-field>
         
         <mat-form-field appearance="fill">
             <mat-label>Description</mat-label>
-            <textarea matInput formControlName="description"></textarea>
+            <textarea matInput [formControl]="$any(taskForm.controls.description)"></textarea>
+            <mat-error *ngIf="taskForm.controls.description.hasError('maxlength')">
+                Max length is 100 chars
+            </mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="fill">
             <mat-label>Assignee</mat-label>
-            <mat-select formControlName="assignee">
-              <mat-option *ngFor="let user of data.users">
+            <mat-select [formControl]="$any(taskForm.controls.assignee)">
+              <mat-option *ngFor="let user of data.users" [value]="user">
                 {{user}}
               </mat-option>
             </mat-select>
+            <mat-error *ngIf="taskForm.controls.assignee.hasError('required')">
+                Assignee is required
+            </mat-error>
         </mat-form-field>
 
-        <mat-checkbox formControlName="isUrgent">
+        <mat-checkbox [formControl]="$any(taskForm.controls.isUrgent)">
             Urgent
-        </mat-checkbox>
-      
+        </mat-checkbox>   
     </form>
+
+    <div class="dialog-footer">
+        <button class="btnCancel" mat-flat-button (click)="cancel()">Cancel</button>
+        <button class="btnSave" mat-flat-button 
+        color="primary" 
+        [disabled]="taskForm.pristine || taskForm.invalid" 
+        (click)="save()">Save</button>
+    </div>
 
 </div>

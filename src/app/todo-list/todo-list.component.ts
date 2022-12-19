@@ -10,13 +10,20 @@ import { Task } from '../types/task.type';
   styleUrls: ['./todo-list.component.sass']
 })
 export class TodoListComponent {
-  public taskList: Task[] = [];
+  public taskList: Task[] = [{
+    id: 0,
+    title: 'Task',
+    description: 'Descr',
+    assignee: 'John',
+    isUrgent: false,
+    completed:false
+  }];
   public newTask: string;
   public editing: boolean;
 
   private lastId: number = 0;
   private editedTaskId: number;
-  private users: string[] = ["John", "Alex", "Bob"]
+  private users: string[] = ["John", "Alex", "Matt"]
 
   constructor(
     private _snackBar: MatSnackBar,
@@ -41,10 +48,15 @@ export class TodoListComponent {
       data: {users: this.users},
     });
 
-    dialogRef.afterClosed().subscribe(_result => {
-      
+    dialogRef.afterClosed().subscribe(result => {
+     if(result) {
+        this.taskList.push({
+          ...result,
+          id: ++this.lastId,
+          completed: false
+        })
+     }
     });
-
   }
 
   removeTask(taskId: number): void {
@@ -53,9 +65,29 @@ export class TodoListComponent {
   }
 
   editTask(taskId: number): void {
-    this.editedTaskId = taskId;
+    /*this.editedTaskId = taskId;
     this.editing = true;
-    this.newTask = this.taskList.find(task => task.id === taskId).title;
+    this.newTask = this.taskList.find(task => task.id === taskId).title;*/
+    let task = this.taskList.find(task => task.id === taskId);
+    const dialogRef = this.dialog.open(TaskFormDialogComponent, {
+      width: '600px',
+      data: {task, users: this.users},
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result) {
+        /* task = {
+          ...task,
+          ...result
+        }; */
+        const taskInd = this.taskList.findIndex(task => task.id === taskId);
+        this.taskList.splice(taskInd, 1);
+        this.taskList.push({
+          ...task,
+          ...result
+        })
+      }
+     });
   }
 
   saveChanges(): void {
