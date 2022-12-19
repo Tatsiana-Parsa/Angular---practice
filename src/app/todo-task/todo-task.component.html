@@ -1,5 +1,3 @@
-
-
 <div class="task-wrapper">
 
     <div class="task-content">
@@ -9,7 +7,7 @@
                 (change)="complete($event.checked)">
             </mat-checkbox>
         </div>
-        <div [ngClass]="{'completed': task.completed}">{{task.title}}</div>
+        <div [ngClass]="{'completed': task.completed}" [tooltip]="task.title">{{task.title}}</div>
     </div>
 
     <div class="task-content-btn">
