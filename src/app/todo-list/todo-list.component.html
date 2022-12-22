@@ -1,6 +1,6 @@
 <div class="todo-container">
     <h1>My ToDo List</h1>
-
+    <p>{{date | date: 'EEEE, MMMM d, y'}}</p>
     <div class="buttons">
         <ng-container *ngIf="!editing">
             <button mat-raised-button color="primary" class="add-button-task" (click)="addTask()">Add Task</button>

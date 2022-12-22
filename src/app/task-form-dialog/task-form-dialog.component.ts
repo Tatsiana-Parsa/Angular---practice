@@ -1,12 +1,14 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { TaskService } from 'src/app/services/task.service';
 import { Task } from '../types/task.type';
 
 @Component({
   selector: 'app-task-form-dialog',
   templateUrl: './task-form-dialog.component.html',
-  styleUrls: ['./task-form-dialog.component.sass']
+  styleUrls: ['./task-form-dialog.component.sass'],
+  providers: [TaskService]
 })
 export class TaskFormDialogComponent implements OnInit, OnDestroy {
   public taskForm: FormGroup = this.fb.group({

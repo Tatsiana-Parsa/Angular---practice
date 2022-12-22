@@ -1,15 +1,17 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { TaskService } from 'src/app/services/task.service';
 import { TaskFormDialogComponent } from '../task-form-dialog/task-form-dialog.component';
 import { Task } from '../types/task.type';
 
 @Component({
   selector: 'app-todo-list',
   templateUrl: './todo-list.component.html',
-  styleUrls: ['./todo-list.component.sass']
+  styleUrls: ['./todo-list.component.sass'],
+  providers: [TaskService],
 })
-export class TodoListComponent {
+export class TodoListComponent implements OnInit {
   public taskList: Task[] = [{
     id: 0,
     title: 'Task',
@@ -20,6 +22,7 @@ export class TodoListComponent {
   }];
   public newTask: string;
   public editing: boolean;
+  public date: Date;
 
   private lastId: number = 0;
   private editedTaskId: number;
@@ -27,14 +30,14 @@ export class TodoListComponent {
 
   constructor(
     private _snackBar: MatSnackBar,
-    public dialog: MatDialog) {
+    public dialog: MatDialog,
+    private taskService: TaskService) {
   }
 
-  @HostListener('window: keyup.enter')
-  showNotification(): void {
-    this._snackBar.open('Task has been created', '', {
-      duration: 3 * 1000,
-    });
+  ngOnInit(): void {
+    this.date = new Date();
+    this.taskList = this.taskService.getTasks();
+    this.users = this.taskService.getUser();
   }
 
   addTask(): void {
